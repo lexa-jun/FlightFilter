@@ -33,5 +33,41 @@ public class SegmentFilterImpl implements SegmentFilter {
 
     }
 
+    public Set<Flight> getArrivalDateLessDepartureDate(List<Flight> flights){
+        Set<Flight> resultSet = new HashSet<>();
+        List<Segment> split = new ArrayList<>();
+        for(Flight flight : flights){
+            split.addAll(flight.getSegments());
+
+            while (split.size() > 0){
+                LocalDateTime departureTime = split.get(0).getDepartureDate();
+                LocalDateTime arrivalTime = split.remove(0).getArrivalDate();
+                if(arrivalTime.isBefore(departureTime)){
+                    showRightFLight(flight, departureTime, arrivalTime);
+                    resultSet.add(flight);
+                }
+            }
+        }
+        return resultSet;
+    }
+
+    public Set<Flight> getDepartureTimeBeforeNow(List<Flight> flights){
+        LocalDateTime timeNow = LocalDateTime.now();
+        Set<Flight> resultSet = new HashSet<>();
+        List<Segment> split = new ArrayList<>();
+        for(Flight flight : flights){
+            split.addAll(flight.getSegments());
+
+            while (split.size() > 0){
+                LocalDateTime departureTime = (split.get(0).getDepartureDate());
+                LocalDateTime arrivalTime = (split.remove(0).getArrivalDate());
+                if(departureTime.isAfter(timeNow)){
+                    showRightFLight(flight, departureTime, arrivalTime);
+                    resultSet.add(flight);
+                }
+            }
+        }
+        return resultSet;
+    }
 
 }
