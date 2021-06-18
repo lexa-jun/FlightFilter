@@ -70,4 +70,30 @@ public class SegmentFilterImpl implements SegmentFilter {
         return resultSet;
     }
 
+    public Set<Flight> getFlightWithTransferMoreThanTwoHours(List<Flight> flights) {
+        Set<Flight> resultSet = new HashSet<>();
+        List<Segment> split = new ArrayList<>();
+        for (Flight flight : flights) {
+            split.addAll(flight.getSegments());
+            if (split.size() > 2) {
+                while (split.size() > 2) {
+                    LocalDateTime arrivalTime = split.remove(1).getArrivalDate();
+                    LocalDateTime departureTime = split.remove(1).getDepartureDate();
+                    if (departureTime.isAfter(arrivalTime.plusHours(2))) {
+                        showTransfer(flight, arrivalTime, departureTime);
+                        resultSet.add(flight);
+                    }
+                }
+            }
+        }
+        return resultSet;
+    }
+
+    private void showTransfer(Flight flight, LocalDateTime arrivalTime, LocalDateTime departureTime) {
+        DateTimeFormatter dateTimeFormatter = getDateFormatter();
+        System.out.println("Номер рейса - " + flight.getId() + "\n" + "Время прибытия: "
+                + dateTimeFormatter.format(arrivalTime) + "\n" + "Время отправления: "
+                + dateTimeFormatter.format(departureTime));
+        System.out.println("..................................");
+    }
 }
