@@ -29,8 +29,8 @@ public class FlightBuilder {
                 createFlight(threeDaysFromNow, threeDaysFromNow.plusHours(2),
                         threeDaysFromNow.plusHours(3), threeDaysFromNow.plusHours(4),
                         threeDaysFromNow.plusHours(6), threeDaysFromNow.plusHours(7)));
-
     }
+
     protected Flight createFlight(final LocalDateTime... dates) {
         if ((dates.length % 2) != 0) {
             throw new IllegalArgumentException(
@@ -44,5 +44,4 @@ public class FlightBuilder {
         flightId += 1;
         return new Flight(segments, flightId);
     }
-
 }

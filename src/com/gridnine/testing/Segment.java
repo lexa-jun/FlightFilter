@@ -35,5 +35,4 @@ public class Segment {
         return '[' + departureDate.format(fmt) + '|' + arrivalDate.format(fmt)
                 + ']';
     }
-
 }
